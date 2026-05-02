@@ -169,7 +169,7 @@ function ReservationPage() {
     }
 
     setSubmitting(true);
-    const { data, error } = await supabase.from("appointments").insert(payload).select("id").single();
+    const { data, error } = await supabase.from("appointments").insert(payload as never).select("id").single();
     setSubmitting(false);
 
     if (error) {
