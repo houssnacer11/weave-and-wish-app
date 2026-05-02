@@ -17,6 +17,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminHorairesRouteImport } from './routes/admin.horaires'
 
 const VitrineRoute = VitrineRouteImport.update({
   id: '/vitrine',
@@ -58,6 +59,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminHorairesRoute = AdminHorairesRouteImport.update({
+  id: '/horaires',
+  path: '/horaires',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/reservation': typeof ReservationRoute
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
+  '/admin/horaires': typeof AdminHorairesRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/reservation': typeof ReservationRoute
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
+  '/admin/horaires': typeof AdminHorairesRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/reservation': typeof ReservationRoute
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
+  '/admin/horaires': typeof AdminHorairesRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/reservation'
     | '/services'
     | '/vitrine'
+    | '/admin/horaires'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/reservation'
     | '/services'
     | '/vitrine'
+    | '/admin/horaires'
     | '/admin'
   id:
     | '__root__'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/reservation'
     | '/services'
     | '/vitrine'
+    | '/admin/horaires'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -189,14 +201,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/horaires': {
+      id: '/admin/horaires'
+      path: '/horaires'
+      fullPath: '/admin/horaires'
+      preLoaderRoute: typeof AdminHorairesRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminHorairesRoute: typeof AdminHorairesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminHorairesRoute: AdminHorairesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
