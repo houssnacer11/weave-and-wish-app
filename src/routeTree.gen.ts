@@ -18,6 +18,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminProduitsRouteImport } from './routes/admin.produits'
 import { Route as AdminHorairesRouteImport } from './routes/admin.horaires'
 
 const VitrineRoute = VitrineRouteImport.update({
@@ -65,6 +66,11 @@ const AdminServicesRoute = AdminServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminProduitsRoute = AdminProduitsRouteImport.update({
+  id: '/produits',
+  path: '/produits',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminHorairesRoute = AdminHorairesRouteImport.update({
   id: '/horaires',
   path: '/horaires',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
   '/admin/horaires': typeof AdminHorairesRoute
+  '/admin/produits': typeof AdminProduitsRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
   '/admin/horaires': typeof AdminHorairesRoute
+  '/admin/produits': typeof AdminProduitsRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
   '/admin/horaires': typeof AdminHorairesRoute
+  '/admin/produits': typeof AdminProduitsRoute
   '/admin/services': typeof AdminServicesRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/vitrine'
     | '/admin/horaires'
+    | '/admin/produits'
     | '/admin/services'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/vitrine'
     | '/admin/horaires'
+    | '/admin/produits'
     | '/admin/services'
     | '/admin'
   id:
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/vitrine'
     | '/admin/horaires'
+    | '/admin/produits'
     | '/admin/services'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -220,6 +232,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServicesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/produits': {
+      id: '/admin/produits'
+      path: '/produits'
+      fullPath: '/admin/produits'
+      preLoaderRoute: typeof AdminProduitsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/horaires': {
       id: '/admin/horaires'
       path: '/horaires'
@@ -232,12 +251,14 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminHorairesRoute: typeof AdminHorairesRoute
+  AdminProduitsRoute: typeof AdminProduitsRoute
   AdminServicesRoute: typeof AdminServicesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminHorairesRoute: AdminHorairesRoute,
+  AdminProduitsRoute: AdminProduitsRoute,
   AdminServicesRoute: AdminServicesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
