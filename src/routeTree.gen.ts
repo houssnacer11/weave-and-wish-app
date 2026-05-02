@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ReservationRouteImport } from './routes/reservation'
+import { Route as MonCompteRouteImport } from './routes/mon-compte'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -30,6 +31,11 @@ const ReservationRoute = ReservationRouteImport.update({
   path: '/reservation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MonCompteRoute = MonCompteRouteImport.update({
+  id: '/mon-compte',
+  path: '/mon-compte',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -44,6 +50,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/mon-compte': typeof MonCompteRoute
   '/reservation': typeof ReservationRoute
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/mon-compte': typeof MonCompteRoute
   '/reservation': typeof ReservationRoute
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
@@ -59,21 +67,36 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/mon-compte': typeof MonCompteRoute
   '/reservation': typeof ReservationRoute
   '/services': typeof ServicesRoute
   '/vitrine': typeof VitrineRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/reservation' | '/services' | '/vitrine'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/mon-compte'
+    | '/reservation'
+    | '/services'
+    | '/vitrine'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/reservation' | '/services' | '/vitrine'
-  id: '__root__' | '/' | '/login' | '/reservation' | '/services' | '/vitrine'
+  to: '/' | '/login' | '/mon-compte' | '/reservation' | '/services' | '/vitrine'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/mon-compte'
+    | '/reservation'
+    | '/services'
+    | '/vitrine'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
+  MonCompteRoute: typeof MonCompteRoute
   ReservationRoute: typeof ReservationRoute
   ServicesRoute: typeof ServicesRoute
   VitrineRoute: typeof VitrineRoute
@@ -102,6 +125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReservationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mon-compte': {
+      id: '/mon-compte'
+      path: '/mon-compte'
+      fullPath: '/mon-compte'
+      preLoaderRoute: typeof MonCompteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -122,6 +152,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
+  MonCompteRoute: MonCompteRoute,
   ReservationRoute: ReservationRoute,
   ServicesRoute: ServicesRoute,
   VitrineRoute: VitrineRoute,
@@ -129,3 +160,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
